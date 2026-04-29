@@ -1,3 +1,25 @@
 spring:
   application:
     name: progkornyezet
+
+  datasource:
+    url: jdbc:h2:mem:progkorny
+    driver-class-name: org.h2.Driver
+    username: progkorny
+    password: "progkorny"
+
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      hibernate:
+        ddl-auto: update
+
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+
+    services:
+      app:
+        build: .
+        ports:
+          - "8080:8080"
