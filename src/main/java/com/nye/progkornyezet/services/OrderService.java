@@ -9,18 +9,37 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for managing orders.
+ */
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public final class OrderService {
 
+    /**
+     * Repository for orders.
+     */
     private final OrderRepository orderRepository;
+
+    /**
+     * Repository for users.
+     */
     private final UserRepository userRepository;
 
+    /**
+     * Returns all orders.
+     * @return list of orders
+     */
     public List<Order> getAll() {
         return orderRepository.findAll();
     }
 
-    public Order save(Order order) {
+    /**
+     * Saves an order and attaches the managed user entity.
+     * @param order order to save
+     * @return saved order
+     */
+    public Order save(final Order order) {
         Long userId = order.getUser().getId();
 
         User user = userRepository.findById(userId).orElseThrow();
@@ -29,7 +48,11 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public void delete(Long id) {
+    /**
+     * Deletes an order by ID.
+     * @param id order ID
+     */
+    public void delete(final Long id) {
         orderRepository.deleteById(id);
     }
 }

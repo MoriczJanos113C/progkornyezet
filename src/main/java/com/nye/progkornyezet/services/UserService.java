@@ -9,23 +9,44 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public final class UserService {
 
+    /**
+     * Repository for users.
+     */
     private final UserRepository userRepository;
 
+    /**
+     * Returns all users.
+     * @return list of users
+     */
     public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public User getById(Long id) {
+    /**
+     * Returns a user by ID.
+     * @param id user ID
+     * @return found user
+     */
+    public User getById(final Long id) {
         return userRepository.findById(id).orElseThrow();
     }
 
-    public User save(User user) {
+    /**
+     * Saves a user.
+     * @param user user to save
+     * @return saved user
+     */
+    public User save(final User user) {
         return userRepository.save(user);
     }
 
-    public void delete(Long id) {
+    /**
+     * Deletes a user by ID.
+     * @param id user ID
+     */
+    public void delete(final Long id) {
         userRepository.deleteById(id);
     }
 }
