@@ -3,11 +3,23 @@ package com.nye.progkornyezet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Main Spring Boot application class.
+ */
 @SpringBootApplication
-public class ProgkornyezetApplication {
+public final class ProgkornyezetApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProgkornyezetApplication.class, args);
-	}
+    private ProgkornyezetApplication() {
+        // not allowing object creation
+    }
+
+    /**
+     * Application entry point.
+     *
+     * @param args command line arguments
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(ProgkornyezetApplication.class, args);
+    }
 
 }
