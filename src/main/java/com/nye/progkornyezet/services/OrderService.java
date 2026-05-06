@@ -35,6 +35,15 @@ public final class OrderService {
     }
 
     /**
+     * Returns an order by ID.
+     * @param id order ID
+     * @return found order
+     */
+    public Order getById(final Long id) {
+        return orderRepository.findById(id).orElseThrow();
+    }
+
+    /**
      * Saves an order and attaches the managed user entity.
      * @param order order to save
      * @return saved order

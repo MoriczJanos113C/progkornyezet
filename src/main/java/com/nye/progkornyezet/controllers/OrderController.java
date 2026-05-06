@@ -36,6 +36,16 @@ public class OrderController {
     }
 
     /**
+     * Returns an order by ID.
+     * @param id order ID
+     * @return found order
+     */
+    @GetMapping("/oneOrder/{id}")
+    public Order getById(final @PathVariable Long id) {
+        return orderService.getById(id);
+    }
+
+    /**
      * Creates a new order.
      * @param order order to create
      * @return created order
