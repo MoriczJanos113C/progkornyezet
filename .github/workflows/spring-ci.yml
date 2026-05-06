@@ -1,0 +1,68 @@
+name: Spring Boot CI (MySQL)
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: progkorny
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Várakozás MySQL-re
+        run: |
+          for i in {1..40}; do
+            nc -z localhost 3306 && echo "MySQL elérhető!" && exit 0
+            echo "Várakozás MySQL-re..."
+            sleep 2
+          done
+          echo "MySQL nem indult el" && exit 1
+
+      - name: Táblák létrehozása
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot progkorny <<EOF
+          CREATE TABLE IF NOT EXISTS users (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            email VARCHAR(255)
+          );
+
+          CREATE TABLE IF NOT EXISTS orders (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            user_id BIGINT,
+            amount DECIMAL(10,2),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+          );
+          EOF
+
+      - name: Build + teszt
+        run: mvn clean test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/progkorny
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
