@@ -8,18 +8,18 @@ spring:
     username: progkorny
     password: "progkorny"
 
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-      hibernate:
-        ddl-auto: update
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+    ddl-auto: update
 
-    h2:
-      console:
-        enabled: true
-        path: /h2-console
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
-    services:
-      app:
-        build: .
-        ports:
-          - "8080:8080"
+  services:
+    app:
+      build: .
+      ports:
+        - "8080:8080"
