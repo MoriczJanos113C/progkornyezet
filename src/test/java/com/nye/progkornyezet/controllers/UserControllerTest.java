@@ -47,4 +47,39 @@ class UserControllerTest {
         assertEquals(1L, result.getId());
         verify(userService).getById(1L);
     }
+
+    @Test
+    void testCreate() {
+        User user = new User();
+        user.setId(1L);
+
+        when(userService.save(user)).thenReturn(user);
+
+        User result = userController.create(user);
+
+        assertEquals(1L, result.getId());
+        verify(userService).save(user);
+    }
+
+    @Test
+    void testUpdate() {
+        User user = new User();
+        user.setId(1L);
+
+        when(userService.save(any(User.class))).thenReturn(user);
+
+        User result = userController.update(1L, user);
+
+        assertEquals(1L, result.getId());
+        verify(userService).save(any(User.class));
+    }
+
+    @Test
+    void testDelete() {
+        doNothing().when(userService).delete(1L);
+
+        userController.delete(1L);
+
+        verify(userService).delete(1L);
+    }
 }
